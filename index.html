@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biradars ACCA Accounting - Journal Revaluation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #1abc9c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --gray: #95a5a6;
+            --light-gray: #f8f9fa;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e7eb 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            font-size: 32px;
+            margin-right: 12px;
+            color: var(--accent);
+        }
+        
+        .logo h1 {
+            font-weight: 700;
+            font-size: 26px;
+            letter-spacing: 0.5px;
+        }
+        
+        .logo span {
+            color: var(--accent);
+            font-weight: 800;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        nav ul li a:hover, nav ul li a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .content-container {
+            display: flex;
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .sidebar {
+            flex: 0 0 250px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            height: fit-content;
+        }
+        
+        .sidebar h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .sidebar ul {
+            list-style: none;
+        }
+        
+        .sidebar ul li {
+            margin-bottom: 12px;
+        }
+        
+        .sidebar ul li a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar ul li a:hover, .sidebar ul li a.active {
+            background-color: rgba(26, 188, 156, 0.1);
+            color: var(--accent);
+        }
+        
+        .main-content {
+            flex: 1;
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 25px;
+        }
+        
+        .section-title {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light);
+        }
+        
+        .section-title h2 {
+            font-size: 24px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 25px;
+            border: 1px solid #eee;
+        }
+        
+        .card-header {
+            background: linear-gradient(to right, var(--secondary), var(--accent));
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            border-radius: 6px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 16px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, var(--accent), #16a085);
+            color: white;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background-color: var(--light);
+            font-weight: 600;
+            color: var(--primary);
+            position: sticky;
+            top: 0;
+        }
+        
+        tr:hover {
+            background-color: rgba(236, 240, 241, 0.5);
+        }
+        
+        .status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        .status-posted {
+            background-color: rgba(39, 174, 96, 0.1);
+            color: var(--success);
+        }
+        
+        .status-pending {
+            background-color: rgba(243, 156, 18, 0.1);
+            color: var(--warning);
+        }
+        
+        .action-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .action-btn.view {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--secondary);
+        }
+        
+        .action-btn.edit {
+            background-color: rgba(243, 156, 18, 0.1);
+            color: var(--warning);
+        }
+        
+        .action-btn.delete {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--danger);
+        }
+        
+        .action-btn.revalue {
+            background-color: rgba(155, 89, 182, 0.1);
+            color: #9b59b6;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .summary-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .summary-card.revenue {
+            border-left-color: var(--success);
+        }
+        
+        .summary-card.expense {
+            border-left-color: var(--danger);
+        }
+        
+        .summary-card.net {
+            border-left-color: var(--secondary);
+        }
+        
+        .summary-card h3 {
+            font-size: 16px;
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+        
+        .summary-card .value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .summary-card .change {
+            font-size: 14px;
+            color: var(--success);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .change.negative {
+            color: var(--danger);
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 30px 0 20px;
+            margin-top: 50px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        
+        .footer-section p, .footer-section li {
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+            font-size: 14px;
+        }
+        
+        .tab-container {
+            margin-top: 20px;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active {
+            border-bottom-color: var(--accent);
+            color: var(--accent);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .account-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .account-card {
+            background: var(--light);
+            border-radius: 8px;
+            padding: 15px;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .account-card h4 {
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .account-card p {
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        .account-card .balance {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-header h3 {
+            color: var(--primary);
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        .empty-table {
+            text-align: center;
+            padding: 20px;
+            color: var(--gray);
+            font-style: italic;
+        }
+        
+        .reval-history {
+            background-color: #f9f9f9;
+            border-left: 4px solid #9b59b6;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+        
+        .reval-history h4 {
+            color: #9b59b6;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .reval-history ul {
+            list-style: none;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .reval-history li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .reval-history li:last-child {
+            border-bottom: none;
+        }
+        
+        .reval-change {
+            font-weight: bold;
+        }
+        
+        .reval-change.positive {
+            color: var(--success);
+        }
+        
+        .reval-change.negative {
+            color: var(--danger);
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .content-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                flex: 0 0 auto;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            nav ul {
+                display: none;
+            }
+        }
+        
+        .account-suggestion {
+            position: absolute;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+            width: calc(100% - 30px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        .account-suggestion div {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .account-suggestion div:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .suggestion-container {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-calculator"></i>
+                    <h1>Biradars <span>ACCA</span> Accounting</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+                        <li><a href="#"><i class="fas fa-book"></i> Journal</a></li>
+                        <li><a href="#"><i class="fas fa-sync-alt"></i> Revaluation</a></li>
+                        <li><a href="#"><i class="fas fa-shopping-cart"></i> Sales</a></li>
+                        <li><a href="#"><i class="fas fa-shopping-bag"></i> Purchases</a></li>
+                        <li><a href="#"><i class="fas fa-undo-alt"></i> Returns</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="content-container">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <h3><i class="fas fa-tasks"></i> Quick Actions</h3>
+                <ul>
+                    <li><a href="#" class="active"><i class="fas fa-plus-circle"></i> Create Journal Entry</a></li>
+                    <li><a href="#"><i class="fas fa-sync-alt"></i> Process Revaluation</a></li>
+                    <li><a href="#"><i class="fas fa-file-invoice"></i> Create Sales Invoice</a></li>
+                    <li><a href="#"><i class="fas fa-file-invoice-dollar"></i> Record Purchase</a></li>
+                    <li><a href="#"><i class="fas fa-undo-alt"></i> Process Return</a></li>
+                    <li><a href="#" id="addAccountBtn"><i class="fas fa-plus"></i> Add Account Category</a></li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <div class="section-title">
+                    <h2><i class="fas fa-book"></i> Journal Entry Management</h2>
+                </div>
+
+                <!-- Journal Entry Form -->
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-plus-circle"></i> Create New Journal Entry
+                    </div>
+                    <div class="card-body">
+                        <form id="journalForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="entryDate">Date</label>
+                                    <input type="date" class="form-control" id="entryDate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="entryNumber">Entry Number</label>
+                                    <input type="text" class="form-control" id="entryNumber" value="JE-2023-0001" readonly>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group suggestion-container">
+                                    <label for="debitAccount">Debit Account</label>
+                                    <input type="text" class="form-control" id="debitAccount" placeholder="Type account name" required>
+                                    <div class="account-suggestion" id="debitSuggestions"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="debitAmount">Debit Amount ($)</label>
+                                    <input type="number" class="form-control" id="debitAmount" step="0.01" min="0" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group suggestion-container">
+                                    <label for="creditAccount">Credit Account</label>
+                                    <input type="text" class="form-control" id="creditAccount" placeholder="Type account name" required>
+                                    <div class="account-suggestion" id="creditSuggestions"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="creditAmount">Credit Amount ($)</label>
+                                    <input type="number" class="form-control" id="creditAmount" step="0.01" min="0" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea class="form-control" id="description" rows="3" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Record Entry</button>
+                                <button type="reset" class="btn btn-outline"><i class="fas fa-times"></i> Clear Form</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Journal Entries Table -->
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-history"></i> Journal Entries
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table id="journalEntriesTable">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Entry #</th>
+                                        <th>Debit Account</th>
+                                        <th>Debit Amount</th>
+                                        <th>Credit Account</th>
+                                        <th>Credit Amount</th>
+                                        <th>Description</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="empty-table">
+                                        <td colspan="8">No journal entries recorded yet</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Revaluation Form -->
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-sync-alt"></i> Journal Entry Revaluation
+                    </div>
+                    <div class="card-body">
+                        <form id="revaluationForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="revalDate">Revaluation Date</label>
+                                    <input type="date" class="form-control" id="revalDate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="journalEntry">Journal Entry to Revalue</label>
+                                    <select class="form-control" id="journalEntry" required>
+                                        <option value="">Select Journal Entry</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="originalAmount">Original Amount ($)</label>
+                                    <input type="text" class="form-control" id="originalAmount" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="newAmount">New Amount ($)</label>
+                                    <input type="number" class="form-control" id="newAmount" step="0.01" min="0" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="revalReason">Reason for Revaluation</label>
+                                <textarea class="form-control" id="revalReason" rows="2" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-calculator"></i> Calculate Adjustment</button>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Adjustment Amount</label>
+                                    <input type="text" class="form-control" id="adjustmentAmount" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Adjustment Type</label>
+                                    <input type="text" class="form-control" id="adjustmentType" readonly>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <button type="button" id="recordRevaluation" class="btn btn-primary"><i class="fas fa-save"></i> Record Revaluation</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Revaluation History -->
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-history"></i> Revaluation History
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table id="revaluationTable">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Original Entry</th>
+                                        <th>Original Amount</th>
+                                        <th>New Amount</th>
+                                        <th>Adjustment</th>
+                                        <th>Reason</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="empty-table">
+                                        <td colspan="6">No revaluations recorded yet</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sales/Purchase Section -->
+                <div class="tab-container">
+                    <div class="tabs">
+                        <div class="tab active" data-tab="sales">Sales Book</div>
+                        <div class="tab" data-tab="purchases">Purchase Book</div>
+                        <div class="tab" data-tab="returns">Returns</div>
+                    </div>
+                    
+                    <div class="tab-content active" id="sales-tab">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3><i class="fas fa-file-invoice"></i> Create Sales Invoice</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="customer">Customer</label>
+                                        <input type="text" class="form-control" id="customer" placeholder="Customer Name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="invoiceDate">Invoice Date</label>
+                                        <input type="date" class="form-control" id="invoiceDate" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="product">Product/Service</label>
+                                        <input type="text" class="form-control" id="product" placeholder="Product/Service Description" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="quantity">Quantity</label>
+                                        <input type="number" class="form-control" id="quantity" min="1" value="1" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="unitPrice">Unit Price ($)</label>
+                                        <input type="number" class="form-control" id="unitPrice" step="0.01" min="0" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="saleAmount">Total Amount ($)</label>
+                                        <input type="number" class="form-control" id="saleAmount" step="0.01" min="0" readonly>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <button class="btn btn-primary" id="recordSale"><i class="fas fa-save"></i> Record Sale</button>
+                                </div>
+                                
+                                <h3><i class="fas fa-history"></i> Sales History</h3>
+                                <div class="table-container">
+                                    <table id="salesTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Customer</th>
+                                                <th>Product</th>
+                                                <th>Qty</th>
+                                                <th>Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="empty-table">
+                                                <td colspan="5">No sales recorded yet</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="purchases-tab">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3><i class="fas fa-shopping-bag"></i> Record Purchase</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="supplier">Supplier</label>
+                                        <input type="text" class="form-control" id="supplier" placeholder="Supplier Name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="purchaseDate">Purchase Date</label>
+                                        <input type="date" class="form-control" id="purchaseDate" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="item">Item Description</label>
+                                        <input type="text" class="form-control" id="item" placeholder="Item Description" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="purchaseQuantity">Quantity</label>
+                                        <input type="number" class="form-control" id="purchaseQuantity" min="1" value="1" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="itemPrice">Unit Price ($)</label>
+                                        <input type="number" class="form-control" id="itemPrice" step="0.01" min="0" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="purchaseAmount">Total Amount ($)</label>
+                                        <input type="number" class="form-control" id="purchaseAmount" step="0.01" min="0" readonly>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <button class="btn btn-primary" id="recordPurchase"><i class="fas fa-save"></i> Record Purchase</button>
+                                </div>
+                                
+                                <h3><i class="fas fa-history"></i> Purchase History</h3>
+                                <div class="table-container">
+                                    <table id="purchasesTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Supplier</th>
+                                                <th>Item</th>
+                                                <th>Qty</th>
+                                                <th>Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="empty-table">
+                                                <td colspan="5">No purchases recorded yet</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="returns-tab">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3><i class="fas fa-undo-alt"></i> Process Return</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="returnType">Return Type</label>
+                                        <select class="form-control" id="returnType" required>
+                                            <option value="">Select Type</option>
+                                            <option value="sales">Sales Return</option>
+                                            <option value="purchase">Purchase Return</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="originalRef">Original Reference #</label>
+                                        <input type="text" class="form-control" id="originalRef" placeholder="Original Invoice/PO #" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="returnDate">Return Date</label>
+                                        <input type="date" class="form-control" id="returnDate" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="returnAmount">Return Amount ($)</label>
+                                        <input type="number" class="form-control" id="returnAmount" step="0.01" min="0" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="returnReason">Reason for Return</label>
+                                    <textarea class="form-control" id="returnReason" rows="2" required></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <button class="btn btn-primary" id="recordReturn"><i class="fas fa-save"></i> Process Return</button>
+                                </div>
+                                
+                                <h3><i class="fas fa-history"></i> Returns History</h3>
+                                <div class="table-container">
+                                    <table id="returnsTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Type</th>
+                                                <th>Reference #</th>
+                                                <th>Amount</th>
+                                                <th>Reason</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="empty-table">
+                                                <td colspan="5">No returns processed yet</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Account Modal -->
+    <div class="modal" id="accountModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-plus"></i> Add New Account Category</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="card-body">
+                <form id="accountForm">
+                    <div class="form-group">
+                        <label for="accountName">Account Name</label>
+                        <input type="text" class="form-control" id="accountName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="accountType">Account Type</label>
+                        <select class="form-control" id="accountType" required>
+                            <option value="">Select Account Type</option>
+                            <option value="asset">Asset</option>
+                            <option value="liability">Liability</option>
+                            <option value="equity">Equity</option>
+                            <option value="revenue">Revenue</option>
+                            <option value="expense">Expense</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="accountSubtype">Subtype (Optional)</label>
+                        <input type="text" class="form-control" id="accountSubtype">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="openingBalance">Opening Balance ($)</label>
+                        <input type="number" class="form-control" id="openingBalance" step="0.01" value="0.00">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="accountDescription">Description</label>
+                        <textarea class="form-control" id="accountDescription" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Create Account</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Biradars ACCA</h3>
+                    <p>Professional accounting software for ACCA professionals</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Features</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Journal Entries</li>
+                        <li><i class="fas fa-check-circle"></i> Journal Revaluation</li>
+                        <li><i class="fas fa-check-circle"></i> Sales Management</li>
+                        <li><i class="fas fa-check-circle"></i> Purchase Tracking</li>
+                        <li><i class="fas fa-check-circle"></i> Returns Processing</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Biradars ACCA Accounting. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize with today's date
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('entryDate').value = today;
+        document.getElementById('revalDate').value = today;
+        document.getElementById('invoiceDate').value = today;
+        document.getElementById('purchaseDate').value = today;
+        document.getElementById('returnDate').value = today;
+        
+        // Data storage
+        let journalEntries = [];
+        let revaluations = [];
+        let accounts = [
+            "Cash", "Accounts Receivable", "Accounts Payable", "Revenue", 
+            "Operating Expense", "Equipment", "Owner's Capital", "Bank Loan",
+            "Revaluation Gain", "Revaluation Loss"
+        ];
+        let sales = [];
+        let purchases = [];
+        let returns = [];
+        
+        // Tab functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tab
+                this.classList.add('active');
+                
+                // Hide all tab content
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Show the corresponding tab content
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+        
+        // Account suggestions
+        function showSuggestions(input, container) {
+            const value = input.value.toLowerCase();
+            const suggestions = accounts.filter(account => 
+                account.toLowerCase().includes(value)
+            );
+            
+            const suggestionContainer = container;
+            suggestionContainer.innerHTML = '';
+            
+            if (suggestions.length > 0) {
+                suggestions.forEach(account => {
+                    const div = document.createElement('div');
+                    div.textContent = account;
+                    div.addEventListener('click', () => {
+                        input.value = account;
+                        suggestionContainer.style.display = 'none';
+                    });
+                    suggestionContainer.appendChild(div);
+                });
+                suggestionContainer.style.display = 'block';
+            } else {
+                suggestionContainer.style.display = 'none';
+            }
+        }
+        
+        // Set up account suggestions
+        document.getElementById('debitAccount').addEventListener('input', function() {
+            showSuggestions(this, document.getElementById('debitSuggestions'));
+        });
+        
+        document.getElementById('creditAccount').addEventListener('input', function() {
+            showSuggestions(this, document.getElementById('creditSuggestions'));
+        });
+        
+        // Close suggestions when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.suggestion-container')) {
+                document.getElementById('debitSuggestions').style.display = 'none';
+                document.getElementById('creditSuggestions').style.display = 'none';
+            }
+        });
+        
+        // Generate next journal entry number
+        function getNextJournalEntryNumber() {
+            if (journalEntries.length === 0) return "JE-2023-0001";
+            
+            const nums = journalEntries.map(entry => {
+                const parts = entry.entryNumber.split('-');
+                return parseInt(parts[2]);
+            });
+            const maxNum = Math.max(...nums);
+            return `JE-2023-${String(maxNum + 1).padStart(4, '0')}`;
+        }
+        
+        // Journal form submission
+        document.getElementById('journalForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const debitAmount = parseFloat(document.getElementById('debitAmount').value);
+            const creditAmount = parseFloat(document.getElementById('creditAmount').value);
+            
+            if (debitAmount !== creditAmount) {
+                alert('Debit and Credit amounts must be equal for a valid journal entry!');
+                return;
+            }
+            
+            if (!accounts.includes(document.getElementById('debitAccount').value)) {
+                accounts.push(document.getElementById('debitAccount').value);
+            }
+            
+            if (!accounts.includes(document.getElementById('creditAccount').value)) {
+                accounts.push(document.getElementById('creditAccount').value);
+            }
+            
+            const newEntry = {
+                id: Date.now(),
+                date: document.getElementById('entryDate').value,
+                entryNumber: document.getElementById('entryNumber').value,
+                debitAccount: document.getElementById('debitAccount').value,
+                debitAmount: debitAmount,
+                creditAccount: document.getElementById('creditAccount').value,
+                creditAmount: creditAmount,
+                description: document.getElementById('description').value,
+                revaluations: []
+            };
+            
+            journalEntries.push(newEntry);
+            updateJournalEntriesTable();
+            updateRevaluationJournalEntries();
+            
+            // Reset form and increment journal entry number
+            this.reset();
+            document.getElementById('entryNumber').value = getNextJournalEntryNumber();
+            document.getElementById('entryDate').value = today;
+            
+            alert('Journal entry recorded successfully!');
+        });
+        
+        // Update journal entries table
+        function updateJournalEntriesTable() {
+            const tableBody = document.querySelector('#journalEntriesTable tbody');
+            tableBody.innerHTML = '';
+            
+            if (journalEntries.length === 0) {
+                tableBody.innerHTML = '<tr class="empty-table"><td colspan="8">No journal entries recorded yet</td></tr>';
+                return;
+            }
+            
+            journalEntries.forEach(entry => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${entry.date}</td>
+                    <td>${entry.entryNumber}</td>
+                    <td>${entry.debitAccount}</td>
+                    <td>$${entry.debitAmount.toFixed(2)}</td>
+                    <td>${entry.creditAccount}</td>
+                    <td>$${entry.creditAmount.toFixed(2)}</td>
+                    <td>${entry.description}</td>
+                    <td>
+                        <button class="action-btn revalue" onclick="revalueJournalEntry(${entry.id})"><i class="fas fa-sync-alt"></i></button>
+                        <button class="action-btn edit" onclick="editJournalEntry(${entry.id})"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete" onclick="deleteJournalEntry(${entry.id})"><i class="fas fa-trash"></i></button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Update revaluation journal entries dropdown
+        function updateRevaluationJournalEntries() {
+            const select = document.getElementById('journalEntry');
+            select.innerHTML = '<option value="">Select Journal Entry</option>';
+            
+            journalEntries.forEach(entry => {
+                const option = document.createElement('option');
+                option.value = entry.id;
+                option.textContent = `${entry.entryNumber} - ${entry.debitAccount} / ${entry.creditAccount} ($${entry.debitAmount.toFixed(2)})`;
+                select.appendChild(option);
+            });
+        }
+        
+        // Set original amount when journal entry is selected
+        document.getElementById('journalEntry').addEventListener('change', function() {
+            const entryId = this.value;
+            if (!entryId) {
+                document.getElementById('originalAmount').value = '';
+                return;
+            }
+            
+            const entry = journalEntries.find(e => e.id == entryId);
+            if (entry) {
+                document.getElementById('originalAmount').value = `$${entry.debitAmount.toFixed(2)}`;
+            }
+        });
+        
+        // Revaluation form submission
+        document.getElementById('revaluationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const entryId = document.getElementById('journalEntry').value;
+            const newAmount = parseFloat(document.getElementById('newAmount').value);
+            
+            if (!entryId) {
+                alert('Please select a journal entry to revalue!');
+                return;
+            }
+            
+            const entry = journalEntries.find(e => e.id == entryId);
+            if (!entry) return;
+            
+            const originalAmount = entry.debitAmount;
+            const adjustment = newAmount - originalAmount;
+            
+            document.getElementById('adjustmentAmount').value = '$' + Math.abs(adjustment).toFixed(2);
+            document.getElementById('adjustmentType').value = adjustment >= 0 ? 'Increase' : 'Decrease';
+        });
+        
+        // Record revaluation button
+        document.getElementById('recordRevaluation').addEventListener('click', function() {
+            const entryId = document.getElementById('journalEntry').value;
+            const newAmount = parseFloat(document.getElementById('newAmount').value);
+            const reason = document.getElementById('revalReason').value;
+            const revalDate = document.getElementById('revalDate').value;
+            
+            if (!entryId) {
+                alert('Please select a journal entry first!');
+                return;
+            }
+            
+            const entry = journalEntries.find(e => e.id == entryId);
+            if (!entry) return;
+            
+            const originalAmount = entry.debitAmount;
+            const adjustment = newAmount - originalAmount;
+            
+            if (adjustment === 0) {
+                alert('No adjustment needed. Amounts are identical.');
+                return;
+            }
+            
+            // Create revaluation record
+            const revaluation = {
+                id: Date.now(),
+                date: revalDate,
+                originalEntryId: entry.id,
+                originalEntryNumber: entry.entryNumber,
+                originalAmount: originalAmount,
+                newAmount: newAmount,
+                adjustment: adjustment,
+                reason: reason
+            };
+            
+            revaluations.push(revaluation);
+            
+            // Update the original journal entry
+            entry.debitAmount = newAmount;
+            entry.creditAmount = newAmount;
+            
+            // Add revaluation to the journal entry's history
+            if (!entry.revaluations) entry.revaluations = [];
+            entry.revaluations.push(revaluation);
+            
+            // Update tables
+            updateJournalEntriesTable();
+            updateRevaluationJournalEntries();
+            updateRevaluationTable();
+            
+            // Reset form
+            document.getElementById('revaluationForm').reset();
+            document.getElementById('adjustmentAmount').value = '';
+            document.getElementById('adjustmentType').value = '';
+            document.getElementById('originalAmount').value = '';
+            document.getElementById('revalDate').value = today;
+            
+            alert('Revaluation recorded successfully!');
+        });
+        
+        // Update revaluation history table
+        function updateRevaluationTable() {
+            const tableBody = document.querySelector('#revaluationTable tbody');
+            tableBody.innerHTML = '';
+            
+            if (revaluations.length === 0) {
+                tableBody.innerHTML = '<tr class="empty-table"><td colspan="6">No revaluations recorded yet</td></tr>';
+                return;
+            }
+            
+            revaluations.forEach(reval => {
+                const row = document.createElement('tr');
+                const adjustmentClass = reval.adjustment >= 0 ? 'reval-change positive' : 'reval-change negative';
+                const adjustmentSign = reval.adjustment >= 0 ? '+' : '';
+                
+                row.innerHTML = `
+                    <td>${reval.date}</td>
+                    <td>${reval.originalEntryNumber}</td>
+                    <td>$${reval.originalAmount.toFixed(2)}</td>
+                    <td>$${reval.newAmount.toFixed(2)}</td>
+                    <td><span class="${adjustmentClass}">${adjustmentSign}$${reval.adjustment.toFixed(2)}</span></td>
+                    <td>${reval.reason}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Modal functionality
+        const modal = document.getElementById('accountModal');
+        const addAccountBtn = document.getElementById('addAccountBtn');
+        const closeModal = document.querySelector('.close-modal');
+        
+        addAccountBtn.addEventListener('click', function() {
+            modal.style.display = 'flex';
+        });
+        
+        closeModal.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        // Account form submission
+        document.getElementById('accountForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const accountName = document.getElementById('accountName').value;
+            
+            if (accounts.includes(accountName)) {
+                alert('Account already exists!');
+                return;
+            }
+            
+            accounts.push(accountName);
+            alert(`New account category "${accountName}" created successfully!`);
+            this.reset();
+            modal.style.display = 'none';
+        });
+        
+        // Calculate total sale amount
+        const quantityInput = document.getElementById('quantity');
+        const unitPriceInput = document.getElementById('unitPrice');
+        const saleAmountInput = document.getElementById('saleAmount');
+        
+        function calculateSaleAmount() {
+            const quantity = parseFloat(quantityInput.value) || 0;
+            const unitPrice = parseFloat(unitPriceInput.value) || 0;
+            saleAmountInput.value = (quantity * unitPrice).toFixed(2);
+        }
+        
+        quantityInput.addEventListener('input', calculateSaleAmount);
+        unitPriceInput.addEventListener('input', calculateSaleAmount);
+        
+        // Calculate purchase amount
+        const purchaseQuantity = document.getElementById('purchaseQuantity');
+        const itemPrice = document.getElementById('itemPrice');
+        const purchaseAmount = document.getElementById('purchaseAmount');
+        
+        function calculatePurchaseAmount() {
+            const qty = parseFloat(purchaseQuantity.value) || 0;
+            const price = parseFloat(itemPrice.value) || 0;
+            purchaseAmount.value = (qty * price).toFixed(2);
+        }
+        
+        purchaseQuantity.addEventListener('input', calculatePurchaseAmount);
+        itemPrice.addEventListener('input', calculatePurchaseAmount);
+        
+        // Record sale
+        document.getElementById('recordSale').addEventListener('click', function() {
+            const customer = document.getElementById('customer').value;
+            const product = document.getElementById('product').value;
+            const quantity = document.getElementById('quantity').value;
+            const amount = document.getElementById('saleAmount').value;
+            const date = document.getElementById('invoiceDate').value;
+            
+            if (!customer || !product || !quantity || !amount || amount <= 0) {
+                alert('Please fill all required fields with valid data!');
+                return;
+            }
+            
+            const sale = {
+                id: Date.now(),
+                date: date,
+                customer: customer,
+                product: product,
+                quantity: quantity,
+                amount: parseFloat(amount)
+            };
+            
+            sales.push(sale);
+            updateSalesTable();
+            
+            // Reset form
+            document.getElementById('customer').value = '';
+            document.getElementById('product').value = '';
+            document.getElementById('quantity').value = '1';
+            document.getElementById('unitPrice').value = '';
+            document.getElementById('saleAmount').value = '';
+            document.getElementById('invoiceDate').value = today;
+            
+            alert('Sale recorded successfully!');
+        });
+        
+        // Update sales table
+        function updateSalesTable() {
+            const tableBody = document.querySelector('#salesTable tbody');
+            tableBody.innerHTML = '';
+            
+            if (sales.length === 0) {
+                tableBody.innerHTML = '<tr class="empty-table"><td colspan="5">No sales recorded yet</td></tr>';
+                return;
+            }
+            
+            sales.forEach(sale => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${sale.date}</td>
+                    <td>${sale.customer}</td>
+                    <td>${sale.product}</td>
+                    <td>${sale.quantity}</td>
+                    <td>$${sale.amount.toFixed(2)}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Record purchase
+        document.getElementById('recordPurchase').addEventListener('click', function() {
+            const supplier = document.getElementById('supplier').value;
+            const item = document.getElementById('item').value;
+            const quantity = document.getElementById('purchaseQuantity').value;
+            const amount = document.getElementById('purchaseAmount').value;
+            const date = document.getElementById('purchaseDate').value;
+            
+            if (!supplier || !item || !quantity || !amount || amount <= 0) {
+                alert('Please fill all required fields with valid data!');
+                return;
+            }
+            
+            const purchase = {
+                id: Date.now(),
+                date: date,
+                supplier: supplier,
+                item: item,
+                quantity: quantity,
+                amount: parseFloat(amount)
+            };
+            
+            purchases.push(purchase);
+            updatePurchasesTable();
+            
+            // Reset form
+            document.getElementById('supplier').value = '';
+            document.getElementById('item').value = '';
+            document.getElementById('purchaseQuantity').value = '1';
+            document.getElementById('itemPrice').value = '';
+            document.getElementById('purchaseAmount').value = '';
+            document.getElementById('purchaseDate').value = today;
+            
+            alert('Purchase recorded successfully!');
+        });
+        
+        // Update purchases table
+        function updatePurchasesTable() {
+            const tableBody = document.querySelector('#purchasesTable tbody');
+            tableBody.innerHTML = '';
+            
+            if (purchases.length === 0) {
+                tableBody.innerHTML = '<tr class="empty-table"><td colspan="5">No purchases recorded yet</td></tr>';
+                return;
+            }
+            
+            purchases.forEach(purchase => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${purchase.date}</td>
+                    <td>${purchase.supplier}</td>
+                    <td>${purchase.item}</td>
+                    <td>${purchase.quantity}</td>
+                    <td>$${purchase.amount.toFixed(2)}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Record return
+        document.getElementById('recordReturn').addEventListener('click', function() {
+            const returnType = document.getElementById('returnType').value;
+            const originalRef = document.getElementById('originalRef').value;
+            const amount = document.getElementById('returnAmount').value;
+            const reason = document.getElementById('returnReason').value;
+            const date = document.getElementById('returnDate').value;
+            
+            if (!returnType || !originalRef || !amount || amount <= 0 || !reason) {
+                alert('Please fill all required fields with valid data!');
+                return;
+            }
+            
+            const returnEntry = {
+                id: Date.now(),
+                date: date,
+                type: returnType,
+                originalRef: originalRef,
+                amount: parseFloat(amount),
+                reason: reason
+            };
+            
+            returns.push(returnEntry);
+            updateReturnsTable();
+            
+            // Reset form
+            document.getElementById('returnType').value = '';
+            document.getElementById('originalRef').value = '';
+            document.getElementById('returnAmount').value = '';
+            document.getElementById('returnReason').value = '';
+            document.getElementById('returnDate').value = today;
+            
+            alert('Return processed successfully!');
+        });
+        
+        // Update returns table
+        function updateReturnsTable() {
+            const tableBody = document.querySelector('#returnsTable tbody');
+            tableBody.innerHTML = '';
+            
+            if (returns.length === 0) {
+                tableBody.innerHTML = '<tr class="empty-table"><td colspan="5">No returns processed yet</td></tr>';
+                return;
+            }
+            
+            returns.forEach(returnEntry => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${returnEntry.date}</td>
+                    <td>${returnEntry.type === 'sales' ? 'Sales Return' : 'Purchase Return'}</td>
+                    <td>${returnEntry.originalRef}</td>
+                    <td>$${returnEntry.amount.toFixed(2)}</td>
+                    <td>${returnEntry.reason}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Edit journal entry
+        window.editJournalEntry = function(id) {
+            const entry = journalEntries.find(e => e.id === id);
+            if (!entry) return;
+            
+            document.getElementById('entryDate').value = entry.date;
+            document.getElementById('entryNumber').value = entry.entryNumber;
+            document.getElementById('debitAccount').value = entry.debitAccount;
+            document.getElementById('debitAmount').value = entry.debitAmount;
+            document.getElementById('creditAccount').value = entry.creditAccount;
+            document.getElementById('creditAmount').value = entry.creditAmount;
+            document.getElementById('description').value = entry.description;
+            
+            // Remove the entry from the list
+            journalEntries = journalEntries.filter(e => e.id !== id);
+            updateJournalEntriesTable();
+            updateRevaluationJournalEntries();
+            
+            alert('Journal entry loaded for editing. Make changes and click "Record Entry" to save.');
+        };
+        
+        // Delete journal entry
+        window.deleteJournalEntry = function(id) {
+            if (confirm('Are you sure you want to delete this journal entry?')) {
+                journalEntries = journalEntries.filter(e => e.id !== id);
+                updateJournalEntriesTable();
+                updateRevaluationJournalEntries();
+                alert('Journal entry deleted successfully!');
+            }
+        };
+        
+        // Revalue journal entry
+        window.revalueJournalEntry = function(id) {
+            const entry = journalEntries.find(e => e.id === id);
+            if (!entry) return;
+            
+            // Select the entry in the dropdown
+            document.getElementById('journalEntry').value = entry.id;
+            document.getElementById('originalAmount').value = `$${entry.debitAmount.toFixed(2)}`;
+            
+            // Scroll to the revaluation section
+            document.querySelector('.card-header:has(i.fa-sync-alt)').scrollIntoView({
+                behavior: 'smooth'
+            });
+        };
+        
+        // Initialize tables
+        document.getElementById('entryNumber').value = getNextJournalEntryNumber();
+        updateJournalEntriesTable();
+        updateRevaluationJournalEntries();
+        updateSalesTable();
+        updatePurchasesTable();
+        updateReturnsTable();
+        updateRevaluationTable();
+    </script>
+</body>
+</html>
