@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biradars ACCA Accounting - Journal Revaluation</title>
+    <title>Biradars ACCA Accounting</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -257,6 +257,12 @@
             color: var(--accent);
         }
         
+        .btn-clear {
+            background-color: transparent;
+            border: 1px solid var(--gray);
+            color: var(--dark);
+        }
+        
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow);
@@ -264,6 +270,12 @@
         
         .btn:active {
             transform: translateY(0);
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
         }
         
         .table-container {
@@ -338,11 +350,6 @@
         .action-btn.delete {
             background-color: rgba(231, 76, 60, 0.1);
             color: var(--danger);
-        }
-        
-        .action-btn.revalue {
-            background-color: rgba(155, 89, 182, 0.1);
-            color: #9b59b6;
         }
         
         .action-btn:hover {
@@ -556,47 +563,29 @@
             font-style: italic;
         }
         
-        .reval-history {
-            background-color: #f9f9f9;
-            border-left: 4px solid #9b59b6;
-            padding: 15px;
-            border-radius: 4px;
-            margin-top: 20px;
-        }
-        
-        .reval-history h4 {
-            color: #9b59b6;
-            margin-bottom: 10px;
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            background: var(--success);
+            color: white;
+            box-shadow: var(--shadow);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            z-index: 2000;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
         }
         
-        .reval-history ul {
-            list-style: none;
-            max-height: 150px;
-            overflow-y: auto;
+        .notification.show {
+            transform: translateX(0);
         }
         
-        .reval-history li {
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .reval-history li:last-child {
-            border-bottom: none;
-        }
-        
-        .reval-change {
-            font-weight: bold;
-        }
-        
-        .reval-change.positive {
-            color: var(--success);
-        }
-        
-        .reval-change.negative {
-            color: var(--danger);
+        .notification.error {
+            background: var(--danger);
         }
         
         /* Responsive styles */
@@ -615,6 +604,10 @@
             
             nav ul {
                 display: none;
+            }
+            
+            .btn-group {
+                flex-direction: column;
             }
         }
         
@@ -643,6 +636,14 @@
         
         .suggestion-container {
             position: relative;
+        }
+        
+        .revaluation-notes {
+            background-color: rgba(243, 156, 18, 0.1);
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 15px;
         }
     </style>
 </head>
@@ -682,6 +683,23 @@
                     <li><a href="#"><i class="fas fa-undo-alt"></i> Process Return</a></li>
                     <li><a href="#" id="addAccountBtn"><i class="fas fa-plus"></i> Add Account Category</a></li>
                 </ul>
+                
+                <h3><i class="fas fa-chart-line"></i> Financial Summary</h3>
+                <div class="summary-card">
+                    <h3>Total Assets</h3>
+                    <div class="value">$0.00</div>
+                    <div class="change"><i class="fas fa-arrow-up"></i> 0% increase</div>
+                </div>
+                <div class="summary-card revenue">
+                    <h3>Revenue This Month</h3>
+                    <div class="value">$0.00</div>
+                    <div class="change"><i class="fas fa-arrow-up"></i> 0% increase</div>
+                </div>
+                <div class="summary-card expense">
+                    <h3>Expenses This Month</h3>
+                    <div class="value">$0.00</div>
+                    <div class="change negative"><i class="fas fa-arrow-up"></i> 0% increase</div>
+                </div>
             </div>
 
             <!-- Main Content -->
@@ -737,9 +755,9 @@
                                 <textarea class="form-control" id="description" rows="3" required></textarea>
                             </div>
                             
-                            <div class="form-group">
+                            <div class="form-group btn-group">
                                 <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Record Entry</button>
-                                <button type="reset" class="btn btn-outline"><i class="fas fa-times"></i> Clear Form</button>
+                                <button type="reset" class="btn btn-clear"><i class="fas fa-eraser"></i> Clear Form</button>
                             </div>
                         </form>
                     </div>
@@ -781,6 +799,10 @@
                         <i class="fas fa-sync-alt"></i> Journal Entry Revaluation
                     </div>
                     <div class="card-body">
+                        <div class="revaluation-notes">
+                            <i class="fas fa-info-circle"></i> Revaluation adjustments create new journal entries to adjust asset values. 
+                            Increases debit the asset account and credit Revaluation Reserve. Decreases debit Revaluation Reserve and credit the asset account.
+                        </div>
                         <form id="revaluationForm">
                             <div class="form-row">
                                 <div class="form-group">
@@ -826,38 +848,11 @@
                                 </div>
                             </div>
                             
-                            <div class="form-group">
+                            <div class="form-group btn-group">
                                 <button type="button" id="recordRevaluation" class="btn btn-primary"><i class="fas fa-save"></i> Record Revaluation</button>
+                                <button type="button" id="clearRevaluation" class="btn btn-clear"><i class="fas fa-eraser"></i> Clear Form</button>
                             </div>
                         </form>
-                    </div>
-                </div>
-
-                <!-- Revaluation History -->
-                <div class="card">
-                    <div class="card-header">
-                        <i class="fas fa-history"></i> Revaluation History
-                    </div>
-                    <div class="card-body">
-                        <div class="table-container">
-                            <table id="revaluationTable">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Original Entry</th>
-                                        <th>Original Amount</th>
-                                        <th>New Amount</th>
-                                        <th>Adjustment</th>
-                                        <th>Reason</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="empty-table">
-                                        <td colspan="6">No revaluations recorded yet</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
                 </div>
 
@@ -906,8 +901,9 @@
                                     </div>
                                 </div>
                                 
-                                <div class="form-group">
+                                <div class="form-group btn-group">
                                     <button class="btn btn-primary" id="recordSale"><i class="fas fa-save"></i> Record Sale</button>
+                                    <button type="reset" class="btn btn-clear"><i class="fas fa-eraser"></i> Clear Form</button>
                                 </div>
                                 
                                 <h3><i class="fas fa-history"></i> Sales History</h3>
@@ -970,8 +966,9 @@
                                     </div>
                                 </div>
                                 
-                                <div class="form-group">
+                                <div class="form-group btn-group">
                                     <button class="btn btn-primary" id="recordPurchase"><i class="fas fa-save"></i> Record Purchase</button>
+                                    <button type="reset" class="btn btn-clear"><i class="fas fa-eraser"></i> Clear Form</button>
                                 </div>
                                 
                                 <h3><i class="fas fa-history"></i> Purchase History</h3>
@@ -1032,8 +1029,9 @@
                                     <textarea class="form-control" id="returnReason" rows="2" required></textarea>
                                 </div>
                                 
-                                <div class="form-group">
+                                <div class="form-group btn-group">
                                     <button class="btn btn-primary" id="recordReturn"><i class="fas fa-save"></i> Process Return</button>
+                                    <button type="reset" class="btn btn-clear"><i class="fas fa-eraser"></i> Clear Form</button>
                                 </div>
                                 
                                 <h3><i class="fas fa-history"></i> Returns History</h3>
@@ -1104,12 +1102,19 @@
                         <textarea class="form-control" id="accountDescription" rows="3"></textarea>
                     </div>
                     
-                    <div class="form-group">
+                    <div class="form-group btn-group">
                         <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Create Account</button>
+                        <button type="reset" class="btn btn-clear"><i class="fas fa-eraser"></i> Clear Form</button>
                     </div>
                 </form>
             </div>
         </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Operation completed successfully</span>
     </div>
 
     <!-- Footer -->
@@ -1148,15 +1153,28 @@
         
         // Data storage
         let journalEntries = [];
-        let revaluations = [];
         let accounts = [
             "Cash", "Accounts Receivable", "Accounts Payable", "Revenue", 
             "Operating Expense", "Equipment", "Owner's Capital", "Bank Loan",
-            "Revaluation Gain", "Revaluation Loss"
+            "Revaluation Reserve"
         ];
         let sales = [];
         let purchases = [];
         let returns = [];
+        
+        // Show notification
+        function showNotification(message, isError = false) {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            
+            notificationText.textContent = message;
+            notification.classList.toggle('error', isError);
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
         
         // Tab functionality
         document.querySelectorAll('.tab').forEach(tab => {
@@ -1220,18 +1238,6 @@
             }
         });
         
-        // Generate next journal entry number
-        function getNextJournalEntryNumber() {
-            if (journalEntries.length === 0) return "JE-2023-0001";
-            
-            const nums = journalEntries.map(entry => {
-                const parts = entry.entryNumber.split('-');
-                return parseInt(parts[2]);
-            });
-            const maxNum = Math.max(...nums);
-            return `JE-2023-${String(maxNum + 1).padStart(4, '0')}`;
-        }
-        
         // Journal form submission
         document.getElementById('journalForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -1239,17 +1245,14 @@
             const debitAmount = parseFloat(document.getElementById('debitAmount').value);
             const creditAmount = parseFloat(document.getElementById('creditAmount').value);
             
-            if (debitAmount !== creditAmount) {
-                alert('Debit and Credit amounts must be equal for a valid journal entry!');
+            if (!debitAmount || !creditAmount) {
+                showNotification('Please enter valid amounts!', true);
                 return;
             }
             
-            if (!accounts.includes(document.getElementById('debitAccount').value)) {
-                accounts.push(document.getElementById('debitAccount').value);
-            }
-            
-            if (!accounts.includes(document.getElementById('creditAccount').value)) {
-                accounts.push(document.getElementById('creditAccount').value);
+            if (debitAmount !== creditAmount) {
+                showNotification('Debit and Credit amounts must be equal!', true);
+                return;
             }
             
             const newEntry = {
@@ -1260,8 +1263,7 @@
                 debitAmount: debitAmount,
                 creditAccount: document.getElementById('creditAccount').value,
                 creditAmount: creditAmount,
-                description: document.getElementById('description').value,
-                revaluations: []
+                description: document.getElementById('description').value
             };
             
             journalEntries.push(newEntry);
@@ -1270,10 +1272,11 @@
             
             // Reset form and increment journal entry number
             this.reset();
-            document.getElementById('entryNumber').value = getNextJournalEntryNumber();
+            const currentNum = parseInt(document.getElementById('entryNumber').value.split('-')[2]);
+            document.getElementById('entryNumber').value = `JE-2023-${String(currentNum + 1).padStart(4, '0')}`;
             document.getElementById('entryDate').value = today;
             
-            alert('Journal entry recorded successfully!');
+            showNotification('Journal entry recorded successfully!');
         });
         
         // Update journal entries table
@@ -1297,7 +1300,6 @@
                     <td>$${entry.creditAmount.toFixed(2)}</td>
                     <td>${entry.description}</td>
                     <td>
-                        <button class="action-btn revalue" onclick="revalueJournalEntry(${entry.id})"><i class="fas fa-sync-alt"></i></button>
                         <button class="action-btn edit" onclick="editJournalEntry(${entry.id})"><i class="fas fa-edit"></i></button>
                         <button class="action-btn delete" onclick="deleteJournalEntry(${entry.id})"><i class="fas fa-trash"></i></button>
                     </td>
@@ -1341,7 +1343,12 @@
             const newAmount = parseFloat(document.getElementById('newAmount').value);
             
             if (!entryId) {
-                alert('Please select a journal entry to revalue!');
+                showNotification('Please select a journal entry to revalue!', true);
+                return;
+            }
+            
+            if (!newAmount) {
+                showNotification('Please enter a valid new amount!', true);
                 return;
             }
             
@@ -1355,92 +1362,65 @@
             document.getElementById('adjustmentType').value = adjustment >= 0 ? 'Increase' : 'Decrease';
         });
         
-        // Record revaluation button
-        document.getElementById('recordRevaluation').addEventListener('click', function() {
-            const entryId = document.getElementById('journalEntry').value;
-            const newAmount = parseFloat(document.getElementById('newAmount').value);
-            const reason = document.getElementById('revalReason').value;
-            const revalDate = document.getElementById('revalDate').value;
-            
-            if (!entryId) {
-                alert('Please select a journal entry first!');
-                return;
-            }
-            
-            const entry = journalEntries.find(e => e.id == entryId);
-            if (!entry) return;
-            
-            const originalAmount = entry.debitAmount;
-            const adjustment = newAmount - originalAmount;
-            
-            if (adjustment === 0) {
-                alert('No adjustment needed. Amounts are identical.');
-                return;
-            }
-            
-            // Create revaluation record
-            const revaluation = {
-                id: Date.now(),
-                date: revalDate,
-                originalEntryId: entry.id,
-                originalEntryNumber: entry.entryNumber,
-                originalAmount: originalAmount,
-                newAmount: newAmount,
-                adjustment: adjustment,
-                reason: reason
-            };
-            
-            revaluations.push(revaluation);
-            
-            // Update the original journal entry
-            entry.debitAmount = newAmount;
-            entry.creditAmount = newAmount;
-            
-            // Add revaluation to the journal entry's history
-            if (!entry.revaluations) entry.revaluations = [];
-            entry.revaluations.push(revaluation);
-            
-            // Update tables
-            updateJournalEntriesTable();
-            updateRevaluationJournalEntries();
-            updateRevaluationTable();
-            
-            // Reset form
+        // Clear revaluation form
+        document.getElementById('clearRevaluation').addEventListener('click', function() {
             document.getElementById('revaluationForm').reset();
             document.getElementById('adjustmentAmount').value = '';
             document.getElementById('adjustmentType').value = '';
-            document.getElementById('originalAmount').value = '';
             document.getElementById('revalDate').value = today;
-            
-            alert('Revaluation recorded successfully!');
+            showNotification('Revaluation form cleared');
         });
         
-        // Update revaluation history table
-        function updateRevaluationTable() {
-            const tableBody = document.querySelector('#revaluationTable tbody');
-            tableBody.innerHTML = '';
+        // Function to generate revaluation entry numbers
+        function getNextRevaluationNumber() {
+            const revEntries = journalEntries.filter(entry => entry.entryNumber.startsWith('REV-'));
+            const nextNum = revEntries.length + 1;
+            return `REV-2023-${String(nextNum).padStart(4, '0')}`;
+        }
+        
+        // Record revaluation button
+        document.getElementById('recordRevaluation').addEventListener('click', function() {
+            const adjustment = document.getElementById('adjustmentAmount').value;
+            const adjustmentType = document.getElementById('adjustmentType').value;
+            const revalReason = document.getElementById('revalReason').value;
+            const revalDate = document.getElementById('revalDate').value;
+            const entryId = document.getElementById('journalEntry').value;
             
-            if (revaluations.length === 0) {
-                tableBody.innerHTML = '<tr class="empty-table"><td colspan="6">No revaluations recorded yet</td></tr>';
+            if (!adjustment || !entryId) {
+                showNotification('Please calculate the adjustment first!', true);
                 return;
             }
             
-            revaluations.forEach(reval => {
-                const row = document.createElement('tr');
-                const adjustmentClass = reval.adjustment >= 0 ? 'reval-change positive' : 'reval-change negative';
-                const adjustmentSign = reval.adjustment >= 0 ? '+' : '';
-                
-                row.innerHTML = `
-                    <td>${reval.date}</td>
-                    <td>${reval.originalEntryNumber}</td>
-                    <td>$${reval.originalAmount.toFixed(2)}</td>
-                    <td>$${reval.newAmount.toFixed(2)}</td>
-                    <td><span class="${adjustmentClass}">${adjustmentSign}$${reval.adjustment.toFixed(2)}</span></td>
-                    <td>${reval.reason}</td>
-                `;
-                tableBody.appendChild(row);
-            });
-        }
+            const originalEntry = journalEntries.find(e => e.id == entryId);
+            if (!originalEntry) return;
+            
+            const adjValue = parseFloat(adjustment.replace('$', ''));
+            const isIncrease = adjustmentType === 'Increase';
+            
+            // Ensure Revaluation Reserve account exists
+            if (!accounts.includes("Revaluation Reserve")) {
+                accounts.push("Revaluation Reserve");
+                showNotification("Added 'Revaluation Reserve' account");
+            }
+            
+            // Create adjustment entry
+            const adjEntry = {
+                id: Date.now(),
+                date: revalDate,
+                entryNumber: getNextRevaluationNumber(),
+                description: `Revaluation adjustment for ${originalEntry.entryNumber}: ${revalReason}`,
+                debitAccount: isIncrease ? originalEntry.debitAccount : "Revaluation Reserve",
+                debitAmount: adjValue,
+                creditAccount: isIncrease ? "Revaluation Reserve" : originalEntry.debitAccount,
+                creditAmount: adjValue
+            };
+            
+            journalEntries.push(adjEntry);
+            updateJournalEntriesTable();
+            updateRevaluationJournalEntries();
+            
+            showNotification('Revaluation adjustment recorded successfully!');
+        });
         
         // Modal functionality
         const modal = document.getElementById('accountModal');
@@ -1467,12 +1447,12 @@
             const accountName = document.getElementById('accountName').value;
             
             if (accounts.includes(accountName)) {
-                alert('Account already exists!');
+                showNotification('Account already exists!', true);
                 return;
             }
             
             accounts.push(accountName);
-            alert(`New account category "${accountName}" created successfully!`);
+            showNotification(`New account category "${accountName}" created successfully!`);
             this.reset();
             modal.style.display = 'none';
         });
@@ -1514,7 +1494,7 @@
             const date = document.getElementById('invoiceDate').value;
             
             if (!customer || !product || !quantity || !amount || amount <= 0) {
-                alert('Please fill all required fields with valid data!');
+                showNotification('Please fill all required fields with valid data!', true);
                 return;
             }
             
@@ -1530,15 +1510,7 @@
             sales.push(sale);
             updateSalesTable();
             
-            // Reset form
-            document.getElementById('customer').value = '';
-            document.getElementById('product').value = '';
-            document.getElementById('quantity').value = '1';
-            document.getElementById('unitPrice').value = '';
-            document.getElementById('saleAmount').value = '';
-            document.getElementById('invoiceDate').value = today;
-            
-            alert('Sale recorded successfully!');
+            showNotification('Sale recorded successfully!');
         });
         
         // Update sales table
@@ -1573,7 +1545,7 @@
             const date = document.getElementById('purchaseDate').value;
             
             if (!supplier || !item || !quantity || !amount || amount <= 0) {
-                alert('Please fill all required fields with valid data!');
+                showNotification('Please fill all required fields with valid data!', true);
                 return;
             }
             
@@ -1589,15 +1561,7 @@
             purchases.push(purchase);
             updatePurchasesTable();
             
-            // Reset form
-            document.getElementById('supplier').value = '';
-            document.getElementById('item').value = '';
-            document.getElementById('purchaseQuantity').value = '1';
-            document.getElementById('itemPrice').value = '';
-            document.getElementById('purchaseAmount').value = '';
-            document.getElementById('purchaseDate').value = today;
-            
-            alert('Purchase recorded successfully!');
+            showNotification('Purchase recorded successfully!');
         });
         
         // Update purchases table
@@ -1632,7 +1596,7 @@
             const date = document.getElementById('returnDate').value;
             
             if (!returnType || !originalRef || !amount || amount <= 0 || !reason) {
-                alert('Please fill all required fields with valid data!');
+                showNotification('Please fill all required fields with valid data!', true);
                 return;
             }
             
@@ -1648,14 +1612,7 @@
             returns.push(returnEntry);
             updateReturnsTable();
             
-            // Reset form
-            document.getElementById('returnType').value = '';
-            document.getElementById('originalRef').value = '';
-            document.getElementById('returnAmount').value = '';
-            document.getElementById('returnReason').value = '';
-            document.getElementById('returnDate').value = today;
-            
-            alert('Return processed successfully!');
+            showNotification('Return processed successfully!');
         });
         
         // Update returns table
@@ -1699,7 +1656,7 @@
             updateJournalEntriesTable();
             updateRevaluationJournalEntries();
             
-            alert('Journal entry loaded for editing. Make changes and click "Record Entry" to save.');
+            showNotification('Journal entry loaded for editing. Make changes and click "Record Entry" to save.');
         };
         
         // Delete journal entry
@@ -1708,33 +1665,16 @@
                 journalEntries = journalEntries.filter(e => e.id !== id);
                 updateJournalEntriesTable();
                 updateRevaluationJournalEntries();
-                alert('Journal entry deleted successfully!');
+                showNotification('Journal entry deleted successfully!');
             }
         };
         
-        // Revalue journal entry
-        window.revalueJournalEntry = function(id) {
-            const entry = journalEntries.find(e => e.id === id);
-            if (!entry) return;
-            
-            // Select the entry in the dropdown
-            document.getElementById('journalEntry').value = entry.id;
-            document.getElementById('originalAmount').value = `$${entry.debitAmount.toFixed(2)}`;
-            
-            // Scroll to the revaluation section
-            document.querySelector('.card-header:has(i.fa-sync-alt)').scrollIntoView({
-                behavior: 'smooth'
-            });
-        };
-        
         // Initialize tables
-        document.getElementById('entryNumber').value = getNextJournalEntryNumber();
         updateJournalEntriesTable();
         updateRevaluationJournalEntries();
         updateSalesTable();
         updatePurchasesTable();
         updateReturnsTable();
-        updateRevaluationTable();
     </script>
 </body>
 </html>
